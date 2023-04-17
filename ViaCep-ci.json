@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "4698b6ff-fe2e-4447-81be-e65d60b271ca",
+		"name": "ViaCep",
+		"description": "### VIA CEP\n\n#### Descrição\n-----\nTeste realizado com base no site [ViaCEP](https://viacep.com.br/)\nEsta API realiza a consulta de Cep já pré determinados.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24017958"
+	},
+	"item": [
+		{
+			"name": "consultaCep",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function consultaCep(){\r",
+							"    var cep = [\"08655-195\", \"08655-374\", \"08655-184\", \"08655-196\", \"08655-130\", \"08655-157\", \"08655-145\", \"08655-178\", \"08655-140\", \"08655-187\", \"08655-190\", \"08655-175\", \"08655-163\", \"08655-151\", \"08655-239\", \"08655-020\", \"08655-185\", \"08655-169\", \"08655-154\", \"08655-181\", \"08655-199\", \"08655-148\", \"08655-142\", \"08655-136\", \"08655-193\", \"08655-139\", \"08655-172\", \"08598-716\", \"08598-717\", \"08598-718\", \"08598-724\", \"08598-725\"]\r",
+							"    var randomItem = cep[Math.floor(Math.random() * cep.length )];\r",
+							"    return randomItem;\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"Cep\", consultaCep());\r",
+							"\r",
+							"var schema = {\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"cep\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"logradouro\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"complemento\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"bairro\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"localidade\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"uf\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"ibge\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"gia\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"ddd\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"siafi\": {\r",
+							"      \"type\": \"string\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"cep\",\r",
+							"    \"logradouro\",\r",
+							"    \"complemento\",\r",
+							"    \"bairro\",\r",
+							"    \"localidade\",\r",
+							"    \"uf\",\r",
+							"    \"ibge\",\r",
+							"    \"gia\",\r",
+							"    \"ddd\",\r",
+							"    \"siafi\"\r",
+							"  ]\r",
+							"}\r",
+							"pm.environment.set(\"schema\", schema);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(pm.response.json(), pm.environment.get(\"schema\"))).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Description is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"Cep\")).to.eql(JSON.parse(responseBody).cep)\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{Cep}}/json",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{Cep}}",
+						"json"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
